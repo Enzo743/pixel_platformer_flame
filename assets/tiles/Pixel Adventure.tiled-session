@@ -19,6 +19,17 @@
                 "y": 239.67611336032394
             }
         },
+        "Level-02.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 2.4699999999999998,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 320.24291497975713,
+                "y": 184.2105263157895
+            }
+        },
         "Pixel Adventure.tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 1
