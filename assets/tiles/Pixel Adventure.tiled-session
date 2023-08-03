@@ -15,8 +15,8 @@
             "scale": 2.4699999999999998,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 143.31983805668017,
-                "y": 239.67611336032394
+                "x": 142.91497975708504,
+                "y": 239.27125506072875
             }
         },
         "Level-02.tmx": {
@@ -43,12 +43,14 @@
     "map.width": 40,
     "openFiles": [
         "Level-01.tmx",
-        "Pixel Adventure.tsx"
+        "Pixel Adventure.tsx",
+        "Level-02.tmx"
     ],
     "project": "Pixel Adventure.tiled-project",
     "recentFiles": [
-        "Level-01.tmx",
-        "Pixel Adventure.tsx"
+        "Level-02.tmx",
+        "Pixel Adventure.tsx",
+        "Level-01.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
