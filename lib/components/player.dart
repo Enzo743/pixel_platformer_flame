@@ -125,7 +125,14 @@ class Player extends SpriteAnimationGroupComponent
   void _checkVerticalCollsions() {
     for (final block in collisionBlocks) {
       if (block.isPlatform) {
-        // handle platforms
+        if (checkCollision(this, block)) {
+          if (velocity.y > 0) {
+            velocity.y = 0;
+            position.y = block.y - width;
+            isOnGround = true;
+            break;
+          }
+        }
       } else {
         if (checkCollision(this, block)) {
           if (velocity.y > 0) {
