@@ -6,7 +6,7 @@ import 'package:pixel_adventure/components/collision_block.dart';
 import 'package:pixel_adventure/components/utils.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
-enum PlayerState { idle, running }
+enum PlayerState { idle, running, jumping, falling }
 
 class Player extends SpriteAnimationGroupComponent
     with HasGameRef<PixelAdventure>, KeyboardHandler {
@@ -15,6 +15,8 @@ class Player extends SpriteAnimationGroupComponent
 
   late final SpriteAnimation idleAnimation;
   late final SpriteAnimation runningAnimation;
+  late final SpriteAnimation jumpingAnimation;
+  late final SpriteAnimation fallingAnimation;
   final double stepTime = 0.05;
 
   final double _gravity = 9.8;
@@ -66,10 +68,14 @@ class Player extends SpriteAnimationGroupComponent
   void _loadAllAnimations() {
     idleAnimation = _spriteAnimation('Idle', 11);
     runningAnimation = _spriteAnimation('Run', 12);
+    jumpingAnimation = _spriteAnimation('Jump', 1);
+    fallingAnimation = _spriteAnimation('Fall', 1);
 
     animations = {
       PlayerState.idle: idleAnimation,
       PlayerState.running: runningAnimation,
+      PlayerState.jumping: jumpingAnimation,
+      PlayerState.falling: fallingAnimation,
     };
 
     current = PlayerState.idle;
@@ -85,6 +91,8 @@ class Player extends SpriteAnimationGroupComponent
     }
 
     if (velocity.x > 0 || velocity.x < 0) playerState = PlayerState.running;
+    if (velocity.y > 0) playerState = PlayerState.falling;
+    if (velocity.y < 0) playerState = PlayerState.jumping;
 
     current = playerState;
   }
