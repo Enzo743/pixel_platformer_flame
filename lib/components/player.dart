@@ -25,6 +25,7 @@ class Player extends SpriteAnimationGroupComponent
   double moveSpeed = 100;
   Vector2 velocity = Vector2.zero();
   bool isOnGround = false;
+  bool hasJumped = false;
   List<CollisionBlock> collisionBlocks = [];
 
   @override
@@ -57,6 +58,8 @@ class Player extends SpriteAnimationGroupComponent
     horizontalMovement += isLeftKeyPressed ? -1 : 0;
     horizontalMovement += isRightKeyPressed ? 1 : 0;
 
+    hasJumped = keysPressed.contains(LogicalKeyboardKey.space);
+
     return super.onKeyEvent(event, keysPressed);
   }
 
@@ -87,6 +90,8 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _updatePlayerMovement(double dt) {
+    if (hasJumped && isOnGround) _playerJump(dt);
+
     velocity.x = horizontalMovement * moveSpeed;
     position.x += velocity.x * dt;
   }
@@ -137,6 +142,13 @@ class Player extends SpriteAnimationGroupComponent
         }
       }
     }
+  }
+
+  void _playerJump(double dt) {
+    velocity.y = -_jumpForce;
+    position.y += velocity.y * dt;
+    isOnGround = false;
+    hasJumped = false;
   }
 
   SpriteAnimation _spriteAnimation(String state, int amount) {
