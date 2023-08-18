@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
@@ -26,6 +27,8 @@ class Saw extends SpriteAnimationComponent with HasGameRef<PixelAdventure> {
   @override
   FutureOr<void> onLoad() {
     priority = -1;
+
+    add(CircleHitbox());
 
     if (isVertical) {
       rangeNeg = position.y - offNeg * tileSize;
