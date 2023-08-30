@@ -36,11 +36,13 @@ class Player extends SpriteAnimationGroupComponent
 
   final double stepTime = 0.05;
   final double _gravity = 9.8;
-  final double _jumpForce = 460;
+  final double _jumpForce = 260;
   final double _terminalVelocity = 300;
 
   double horizontalMovement = 0;
   double moveSpeed = 100;
+  double fixedDeltaTime = 1 / 60;
+  double accumulatedTime = 0;
   Vector2 startingPosition = Vector2.zero();
   Vector2 velocity = Vector2.zero();
   bool isOnGround = false;
@@ -67,12 +69,18 @@ class Player extends SpriteAnimationGroupComponent
 
   @override
   void update(double dt) {
-    if (!gotHit && !reachedCheckpoint) {
-      _updatePlayerState();
-      _updatePlayerMovement(dt);
-      _checkHorizontalCollisions();
-      _applyGravity(dt);
-      _checkVerticalCollsions();
+    accumulatedTime += dt;
+
+    while (accumulatedTime >= fixedDeltaTime) {
+      if (!gotHit && !reachedCheckpoint) {
+        _updatePlayerState();
+        _updatePlayerMovement(fixedDeltaTime);
+        _checkHorizontalCollisions();
+        _applyGravity(fixedDeltaTime);
+        _checkVerticalCollsions();
+      }
+
+      accumulatedTime -= fixedDeltaTime;
     }
 
     super.update(dt);
@@ -249,12 +257,11 @@ class Player extends SpriteAnimationGroupComponent
     current = PlayerState.disappearing;
 
     const reachedCheckpointDuration = Duration(milliseconds: 350);
+    const waitToChangeDuration = Duration(seconds: 3);
 
     Future.delayed(reachedCheckpointDuration, () {
       reachedCheckpoint = false;
       position = Vector2.all(-640);
-
-      const waitToChangeDuration = Duration(seconds: 3);
 
       Future.delayed(waitToChangeDuration, () {
         game.loadNextLevel();
