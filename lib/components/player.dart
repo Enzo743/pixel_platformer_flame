@@ -120,7 +120,7 @@ class Player extends SpriteAnimationGroupComponent
     runningAnimation = _spriteAnimation('Run', 12);
     jumpingAnimation = _spriteAnimation('Jump', 1);
     fallingAnimation = _spriteAnimation('Fall', 1);
-    hitAnimation = _spriteAnimation('Hit', 7);
+    hitAnimation = _spriteAnimation('Hit', 7)..loop = false;
     appearingAnimation = _specialSpriteAnimation('Appearing', 7);
     disappearingAnimation = _specialSpriteAnimation('Desappearing', 7);
 
@@ -222,28 +222,28 @@ class Player extends SpriteAnimationGroupComponent
     hasJumped = false;
   }
 
-  void _respawn() {
-    const hitDuration = Duration(milliseconds: 350);
-    const appearingDuration = Duration(milliseconds: 350);
+  void _respawn() async {
     const canMoveDuration = Duration(milliseconds: 400);
 
     gotHit = true;
     current = PlayerState.hit;
 
-    Future.delayed(hitDuration, () {
-      scale.x = 1;
-      position = startingPosition - Vector2.all(32);
-      current = PlayerState.appearing;
+    await animationTicker?.completed;
+    animationTicker?.reset();
 
-      Future.delayed(appearingDuration, () {
-        velocity = Vector2.zero();
-        position = startingPosition;
+    scale.x = 1;
+    position = startingPosition - Vector2.all(32);
+    current = PlayerState.appearing;
 
-        _updatePlayerState();
+    await animationTicker?.completed;
+    animationTicker?.reset();
 
-        Future.delayed(canMoveDuration, () => gotHit = false);
-      });
-    });
+    velocity = Vector2.zero();
+    position = startingPosition;
+
+    _updatePlayerState();
+
+    Future.delayed(canMoveDuration, () => gotHit = false);
   }
 
   void _reachedCheckpoint() {
@@ -288,6 +288,7 @@ class Player extends SpriteAnimationGroupComponent
         amount: amount,
         stepTime: stepTime,
         textureSize: Vector2.all(96),
+        loop: false,
       ),
     );
   }
