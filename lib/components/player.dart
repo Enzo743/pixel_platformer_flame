@@ -251,7 +251,7 @@ class Player extends SpriteAnimationGroupComponent
     Future.delayed(canMoveDuration, () => gotHit = false);
   }
 
-  void _reachedCheckpoint() {
+  void _reachedCheckpoint() async {
     reachedCheckpoint = true;
 
     if (game.playSounds) {
@@ -266,17 +266,15 @@ class Player extends SpriteAnimationGroupComponent
 
     current = PlayerState.disappearing;
 
-    const reachedCheckpointDuration = Duration(milliseconds: 350);
+    await animationTicker?.completed;
+    animationTicker?.reset();
+
+    reachedCheckpoint = false;
+    position = Vector2.all(-640);
+
     const waitToChangeDuration = Duration(seconds: 3);
 
-    Future.delayed(reachedCheckpointDuration, () {
-      reachedCheckpoint = false;
-      position = Vector2.all(-640);
-
-      Future.delayed(waitToChangeDuration, () {
-        game.loadNextLevel();
-      });
-    });
+    Future.delayed(waitToChangeDuration, () => game.loadNextLevel());
   }
 
   SpriteAnimation _spriteAnimation(String state, int amount) {
