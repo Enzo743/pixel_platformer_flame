@@ -25,6 +25,8 @@ class PixelAdventure extends FlameGame
   Player player = Player(character: 'Mask Dude');
   List<String> levelNames = ['Level-01', 'Level-01'];
   int currentLevelIndex = 0;
+  double soundVolume = 1.0;
+  bool playSounds = true;
 
   @override
   FutureOr<void> onLoad() async {
