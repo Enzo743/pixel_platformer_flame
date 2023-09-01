@@ -93,7 +93,8 @@ class PixelAdventure extends FlameGame
       currentLevelIndex++;
       _loadLevel();
     } else {
-      // No more levels
+      currentLevelIndex = 0;
+      _loadLevel();
     }
   }
 
