@@ -23,7 +23,7 @@ class PixelAdventure extends FlameGame
   late CameraComponent cam;
   late JoystickComponent joystick;
   Player player = Player(character: 'Mask Dude');
-  List<String> levelNames = ['Level-01', 'Level-01'];
+  List<String> levelNames = ['Level-01', 'Level-02'];
   int currentLevelIndex = 0;
   double soundVolume = 1.0;
   bool playSounds = true;
